@@ -2,6 +2,18 @@ import React, { useRef, useState, useMemo, useEffect } from 'react';
 import { Marker, Popup } from 'react-leaflet';
 import MarkerPopup from '../../components/MarkerPopup';
 import useFetchAddress from '../../hook/useFetchAddress';
+import L from 'leaflet';
+import markerIcon from 'leaflet/dist/images/marker-icon.png';
+import markerShadow from 'leaflet/dist/images/marker-shadow.png';
+
+const defaultIcon = new L.Icon({
+    iconUrl: markerIcon,
+    shadowUrl: markerShadow,
+    iconSize: [25, 41],
+    iconAnchor: [12, 41],
+    popupAnchor: [1, -34],
+    shadowSize: [41, 41],
+});
 
 const DraggleMarker = ({ onAddRemark, selectedPosition }) => {
     const [position, setPosition] = useState({ lat: 51.505, lng: -0.09 });
@@ -48,6 +60,7 @@ const DraggleMarker = ({ onAddRemark, selectedPosition }) => {
             eventHandlers={eventHandlers}
             position={position}
             ref={markerRef}
+            icon={defaultIcon} 
         >
             <Popup 
                 minWidth={90} 
