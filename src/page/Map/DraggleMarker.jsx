@@ -1,5 +1,5 @@
 import React, { useRef, useState, useMemo, useEffect } from 'react';
-import { Marker, Popup } from 'react-leaflet';
+import { Marker, Popup, useMapEvent } from 'react-leaflet';
 import MarkerPopup from '../../components/MarkerPopup';
 import useFetchAddress from '../../hook/useFetchAddress';
 import L from 'leaflet';
@@ -25,7 +25,7 @@ const DraggleMarker = ({ onAddRemark, selectedPosition }) => {
         () => ({
             dragend() {
                 const marker = markerRef.current;
-                if (marker != null) {
+                if (marker) {//edited
                     const newPosition = marker.getLatLng();
                     setPosition(newPosition);
                     marker.openPopup();
@@ -34,6 +34,12 @@ const DraggleMarker = ({ onAddRemark, selectedPosition }) => {
         }),
         [],
     );
+
+    useMapEvent({
+        click(e){
+            setPosition(e.latlng);
+        },
+    });
 
     useEffect(() => {
         if (selectedPosition) {
